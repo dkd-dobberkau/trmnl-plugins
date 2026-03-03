@@ -1,0 +1,96 @@
+<!-- TRMNL Private Plugin Markup: Haben die Bayern wieder verloren? -->
+<!-- Strategy: Polling | URL: https://api.openligadb.de/getmatchesbyteamid/40/6/0 -->
+<!-- Verb: GET | Headers: keine -->
+<!-- API: OpenLigaDB (keine Authentifizierung nötig) -->
+
+{% assign match_num = 0 %}
+{% assign answer = "" %}
+{% assign main_score = "" %}
+{% assign main_group = "" %}
+{% assign main_date = "" %}
+{% assign history_rows = "" %}
+
+{% for match in data reversed %}
+  {% if match.matchIsFinished == true and match.leagueShortcut == "bl1" and match_num < 4 %}
+
+    {% assign is_home = false %}
+    {% if match.team1.teamId == 40 %}
+      {% assign is_home = true %}
+    {% endif %}
+
+    {% for r in match.matchResults %}
+      {% if r.resultTypeID == 2 %}
+        {% if is_home %}
+          {% assign bayern_g = r.pointsTeam1 %}
+          {% assign opp_g = r.pointsTeam2 %}
+        {% else %}
+          {% assign bayern_g = r.pointsTeam2 %}
+          {% assign opp_g = r.pointsTeam1 %}
+        {% endif %}
+        {% assign score_line = match.team1.shortName | append: " " | append: r.pointsTeam1 | append: ":" | append: r.pointsTeam2 | append: " " | append: match.team2.shortName %}
+      {% endif %}
+    {% endfor %}
+
+    {% if match_num == 0 %}
+      {% if bayern_g > opp_g %}
+        {% assign answer = "NEIN!" %}
+      {% elsif bayern_g < opp_g %}
+        {% assign answer = "JA!" %}
+      {% else %}
+        {% assign answer = "JEIN!" %}
+      {% endif %}
+      {% assign main_score = score_line %}
+      {% assign main_group = match.group.groupName %}
+      {% assign main_date = match.matchDateTime | date: "%d.%m.%Y" %}
+    {% else %}
+      {% if bayern_g > opp_g %}
+        {% assign rc = "S" %}
+      {% elsif bayern_g < opp_g %}
+        {% assign rc = "N" %}
+      {% else %}
+        {% assign rc = "U" %}
+      {% endif %}
+      {% capture row %}<tr><td>{{ match.group.groupOrderID }}</td><td>{{ score_line }}</td><td>{{ rc }}</td></tr>{% endcapture %}
+      {% assign history_rows = history_rows | append: row %}
+    {% endif %}
+
+    {% assign match_num = match_num | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+<div class="layout layout--col">
+  <div class="columns">
+    <div class="column">
+      <span class="title title--small">Haben die Bayern wieder verloren?</span>
+
+      {% if answer != "" %}
+        <span class="title title--jumbo">{{ answer }}</span>
+        <span class="label">{{ main_score }}</span>
+        <span class="label label--small">{{ main_group }}  &bull;  {{ main_date }}</span>
+
+        {% if history_rows != "" %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ST</th>
+              <th>Spiel</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ history_rows }}
+          </tbody>
+        </table>
+        {% endif %}
+      {% else %}
+        <span class="label">Keine Bundesliga-Ergebnisse verfügbar</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg" />
+  <span class="title">Bayern</span>
+  <span class="instance">Letztes Ergebnis</span>
+</div>
