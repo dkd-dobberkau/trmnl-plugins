@@ -1,0 +1,44 @@
+<!-- TRMNL Private Plugin Markup: Redmine Issues -->
+<!-- Strategy: Polling | URL: https://YOUR-REDMINE/issues.json?assigned_to_id=me&status_id=open&sort=priority:desc,updated_on:desc&limit=10 -->
+<!-- Header: X-Redmine-API-Key=YOUR_API_KEY -->
+
+<div class="layout layout--col">
+  <div class="columns">
+    <div class="column">
+      <span class="title title--small">Meine offenen Tickets</span>
+
+      {% if issues.size > 0 %}
+      <table class="table" data-table-overflow="true">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Ticket</th>
+            <th>Priorität</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for issue in issues %}
+          <tr>
+            <td>{{ issue.id }}</td>
+            <td>{{ issue.subject | truncate: 38 }}</td>
+            <td>{{ issue.priority.name }}</td>
+            <td>{{ issue.status.name }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <span class="label">Keine offenen Tickets – Zeit für einen Kaffee ☕</span>
+      {% endif %}
+
+      <span class="label label--small">{{ issues.size }} offene Tickets</span>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg" />
+  <span class="title">Redmine</span>
+  <span class="instance">Meine Tickets</span>
+</div>
