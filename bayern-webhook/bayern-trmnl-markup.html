@@ -1,0 +1,45 @@
+<!-- TRMNL Private Plugin Markup: Haben die Bayern wieder verloren? (Webhook) -->
+<!-- Strategy: Webhook | Daten werden per push-bayern.py gepusht -->
+
+<div class="layout layout--col">
+  <div class="columns">
+    <div class="column">
+      <span class="title title--small">Haben die Bayern wieder verloren?</span>
+
+      {% if answer %}
+        <span class="title title--jumbo">{{ answer }}</span>
+        <span class="label">{{ score }}</span>
+        <span class="label label--small">{{ matchday_name }}  &bull;  {{ date }}</span>
+
+        {% if history.size > 0 %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ST</th>
+              <th>Spiel</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for match in history %}
+            <tr>
+              <td>{{ match.matchday }}</td>
+              <td>{{ match.score }}</td>
+              <td>{{ match.outcome }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+      {% else %}
+        <span class="label">Keine Ergebnisse verfügbar</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg" />
+  <span class="title">Bayern</span>
+  <span class="instance">Letztes Ergebnis</span>
+</div>
