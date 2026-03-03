@@ -25,6 +25,19 @@ Available in two variants:
 | Polling | TRMNL polls OpenLigaDB directly | [`bayern/`](bayern/) | Simple setup, all logic in Liquid |
 | Webhook | Python script pushes to TRMNL | [`bayern-webhook/`](bayern-webhook/) | Server-side processing, simpler template |
 
+### TYPO3 Release Dashboard
+
+Shows all current TYPO3 versions (v10–v14) with latest release, last security release, PHP compatibility, and support status (Active/ELTS/EOL).
+
+Data source: [get.typo3.org API](https://get.typo3.org/) (free, no auth required).
+
+Available in two variants:
+
+| Variant | Strategy | Folder | Description |
+|---------|----------|--------|-------------|
+| Polling | TRMNL polls get.typo3.org directly | [`typo3/`](typo3/) | Version names + support dates only |
+| Webhook | Python script pushes to TRMNL | [`typo3-webhook/`](typo3-webhook/) | Full dashboard: releases, security, PHP |
+
 ## Setup
 
 Each plugin folder contains:
@@ -41,6 +54,7 @@ You need a TRMNL device with the Developer Edition or Developer Add-on.
 |--------|-----|------|
 | Redmine | Your Redmine instance REST API | API Key |
 | Bayern | [OpenLigaDB](https://api.openligadb.de) | None |
+| TYPO3 | [get.typo3.org](https://get.typo3.org/api/v1/major/) | None |
 
 ## License
 

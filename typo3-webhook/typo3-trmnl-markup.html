@@ -1,0 +1,45 @@
+<!-- TRMNL Private Plugin Markup: TYPO3 Release Dashboard (Webhook) -->
+<!-- Strategy: Webhook | Daten werden per push-typo3.py gepusht -->
+
+<div class="layout layout--col">
+  <div class="columns">
+    <div class="column">
+      <span class="title title--small">TYPO3 Releases</span>
+
+      {% if versions.size > 0 %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Version</th>
+            <th>Latest</th>
+            <th>Security</th>
+            <th>PHP</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in versions %}
+          <tr>
+            <td>{{ v.title }}</td>
+            <td>{{ v.latest }}<br><span style="font-size:0.75em">{{ v.latest_date }}</span></td>
+            <td>{{ v.security }}</td>
+            <td>{{ v.php }}</td>
+            <td>{{ v.status }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <span class="label">Keine Versionsdaten verfügbar</span>
+      {% endif %}
+
+      <span class="label label--small">Stand: {{ updated }}</span>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg" />
+  <span class="title">TYPO3</span>
+  <span class="instance">Release Dashboard</span>
+</div>

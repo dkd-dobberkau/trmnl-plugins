@@ -1,0 +1,43 @@
+<!-- TRMNL Private Plugin Markup: TYPO3 Releases -->
+<!-- Strategy: Polling | URL: https://get.typo3.org/api/v1/major/ -->
+<!-- Verb: GET | Headers: keine -->
+
+{% assign count = 0 %}
+
+<div class="layout layout--col">
+  <div class="columns">
+    <div class="column">
+      <span class="title title--small">TYPO3 Releases</span>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Version</th>
+            <th>Maintained</th>
+            <th>ELTS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in data reversed %}
+            {% if v.version >= 10 and count < 5 %}
+              <tr>
+                <td>{{ v.title }}</td>
+                <td>{{ v.maintained_until | date: "%m/%Y" }}</td>
+                <td>{{ v.elts_until | date: "%m/%Y" }}</td>
+              </tr>
+              {% assign count = count | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <span class="label label--small">Quelle: get.typo3.org</span>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg" />
+  <span class="title">TYPO3</span>
+  <span class="instance">Releases</span>
+</div>
